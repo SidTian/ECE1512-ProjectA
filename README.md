@@ -1,15 +1,16 @@
-# ECE1512 Project A - PyTorch MIL on WSI features
+# ECE1512 Project A
 
-This is the **starter package** for Project A. The project uses Attention-Based Multiple Instance Learning (ABMIL) for whole-slide histopathology classification. After completing Project A, you should understand the standard PyTorch supervised-learning pipeline and be able to construct a basic PyTorch training pipeline on your own.
+Slide-level classification of whole-slide histopathology features with Attention-Based Multiple Instance Learning (ABMIL). The research extension is TransMIL, compared with two training-only augmentations: random patch subsampling and Gaussian feature noise.
 
-## 1. Download the pre-extracted features
+Features and trained weights are not in this repository. Download the HDF5 files before training.
 
-The pre-extracted histopathology features are hosted on Zenodo:
+## Setup
 
-https://zenodo.org/records/23130543
+```bash
+pip install -r requirements.txt
+```
 
-
-Download the HDF5 feature files and place them in the designated `feature` folder.
+Download the pre-extracted features from https://zenodo.org/records/23130543 and place them here:
 
 ```text
 feature/
@@ -18,50 +19,28 @@ feature/
   BRACS/patch_feats_pretrain_medical_ssl.h5
 ```
 
-If you store the HDF5 feature files elsewhere, edit only `data_dir` in the selected YAML file.
+Each slide in the HDF5 file has `feat` with shape `[num_patches, 384]`, optional `coords` with shape `[num_patches, 2]`, and an integer `label` attribute. Slides have different numbers of patches. `mil_collate_fn` pads a batch and returns a mask.
 
-## 2. Coding
+Dataset choices are `C16` (CAMELYON16, 2 classes), `C17` (CAMELYON17, 4 classes), and `BRACS` (7 classes). Splits, learning rate, and epoch count come from `config/`.
 
-Open:
+## ABMIL baseline
 
-```text
-ECE1512_ProjectA_Student.ipynb
-```
+Open `ECE1512_ProjectA_Student.ipynb` and set `DATASET` to `C16`, `C17`, or `BRACS`. The notebook builds the model, trains it, and evaluates the test set after selecting the best validation checkpoint.
 
-The notebook is incomplete. Search for **TODO** and complete the requested lines.
+## Experiments
 
-## 3. What is provided
-
-- `dataloader.py` - HDF5 reading, dataset-specific splitting, few-shot selection, and padded MIL collation.
-- `utils.py` - configuration loading, seeding, feature-dimension checks, and AUROC/F1 metric helpers.
-- `config/` - templates for CAMELYON16, CAMELYON17, and BRACS.
-- `dataset_csv/` - metadata required by the CAMELYON17 and BRACS split logic.
-- `ECE1512_ProjectA_Student.ipynb` - guided PyTorch implementation, baseline experiment, and ablation workspace.
-
-The completed ABMIL model and training loop are deliberately **not** included in the student starter package.
-
-## 4. Expected HDF5 layout
-
-Each top-level HDF5 key is one slide:
-
-```text
-slide_id/
-  feat    [num_patches, feature_dim]
-  coords  [num_patches, 2]   # optional for training
-attrs:
-  label   integer class label
-```
-
-Different slides contain different numbers of patches. `mil_collate_fn` pads a batch and returns a boolean `mask` that marks valid patches.
-
-## 5. Colab/local setup
-
-Install dependencies with:
+Run these from the project directory. Validation and test slides are not augmented.
 
 ```bash
-pip install -r requirements.txt
+python train_patch_subsample.py --dataset BRACS --max-patches 2048
+python train_gaussian_noise.py --dataset BRACS --noise-std 0.2
+python train_transmil.py --dataset BRACS --max-patches 4096
 ```
 
-In Colab, place the project folder in Google Drive or upload it to the runtime, set `PROJECT_DIR` in the notebook, and select `C16`, `C17`, or `BRACS`.
+Replace `BRACS` with `C16` or `C17` to run the other datasets.
 
-For an initial debugging run, use only a few epochs. Once your pipeline passes the sanity checks, run the full baseline and keep the same split, seed, and evaluation protocol for your ablations.
+- `train_patch_subsample.py` keeps the ABMIL model and randomly keeps at most 2048 patches from each training slide.
+- `train_gaussian_noise.py` keeps the ABMIL model and adds Gaussian noise with standard deviation 0.2 to training patch features. Feature values have a standard deviation of about 2.2, so this is a mild perturbation.
+- `train_transmil.py` trains TransMIL. Slides longer than 4096 patches are subsampled, then sorted by coordinates and arranged on a square grid. The model uses Nyström attention and pyramid position encoding. The reported run uses cross-entropy.
+
+Metrics and curves are written to `results/`. Checkpoint files are gitignored.
