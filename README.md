@@ -51,7 +51,7 @@ The report and this repository are separate artifacts. The report describes meth
 
 ### Data and environment
 
-- [x] Download features from the source above; features and weights are not tracked.
+- [ ] User setup: download features from the source above; features and weights are not tracked. This audit did not download or reload them.
 - [x] C16: test IDs contain 'test'; reserve 10% of non-test slides for validation with seed 42 and stratification when feasible. Reported counts: 242 train / 27 validation / 129 test.
 - [x] C17: centers 3-4 are test; centers 0-2 are split 90/10 for training/validation with seed 42. Counts: 269 / 30 / 200. This experimental split of available challenge training slides is not the official challenge test partition. Training/validation are split by slide, not grouped by patient.
 - [x] BRACS: preserve CSV assignments for available features; counts: 389 / 62 / 86.
@@ -76,7 +76,7 @@ python train_transmil.py --dataset BRACS --max-patches 4096 --focal --focal-gamm
 - [x] Checkpoints maximize validation macro-AUC + macro-F1, retaining the earlier epoch on ties. Each run evaluates test data after loading that checkpoint.
 - [x] utils.py defines macro one-versus-rest AUROC, macro-F1, and accuracy (%). Cross-entropy is averaged over slides. Focal-loss values are not directly comparable with cross-entropy.
 - [x] TransMIL randomly samples long training bags and deterministically samples validation/test bags, capped at 4096. ABMIL noise/subsampling variants perturb only training inputs.
-- [ ] Multiple seeds, confidence intervals, matched architectural ablations, calibration metrics, and class-level error analyses are not included.
+Optional future work: multiple seeds, confidence intervals, matched architectural ablations, calibration and class-level error analyses are not included; these are not treated as required missing experiments.
 
 ### Report-to-result map
 
@@ -93,7 +93,7 @@ JSON filenames below are under results/.
 | BRACS Gaussian noise | bracs_noise0.2.json | 6 | 39.5349 |
 | BRACS training patch subsampling | bracs_patch2048.json | 4 | 39.5349 |
 | BRACS TransMIL focal loss | bracs_transmil4096_focal2.json | 10 | 38.3721 |
-| BRACS CLAM-MB pilot | bracs_clam_mb.json (result only) | 10 | 39.5349 |
+| BRACS CLAM-MB pilot | bracs_clam_mb.json (historical entry restored; not rerun) | 10 | 39.5349 |
 
 BRACS baseline: notebook output, AUC 0.7916, F1 0.3439, loss 1.6326. Do not substitute bracs_noise0_drop0.25.json: that separate dropout run has accuracy 38.3721%.
 
@@ -102,6 +102,12 @@ Current TransMIL CE runs append _ce to result filenames; tracked main-comparison
 ### Figures and artifact limitations
 
 - [x] The final notebook plotting cell reads the three TransMIL JSONs and regenerates the comparison and learning curves; use Matplotlib savefig after each plotting block to save them. Tracked images: results/transmil_vs_abmil.png and results/transmil_curves.png.
-- [ ] The combined ABMIL-curve figure is present in Overleaf; a dedicated generation script and complete C16/C17 baseline notebook executions are not archived here. C16/C17 zero-noise JSONs contain histories; the notebook preserves the BRACS baseline execution.
-- [ ] CLAM-MB has a result JSON but no identified executable training entry point; treat it as a result-only pilot.
+- [x] Original Overleaf figure archived as results/abmil_curves_overleaf_original.png. Run python plot_abmil_curves.py to generate results/abmil_curves.png from the C16/C17 zero-noise JSON histories and original BRACS notebook stdout, retaining printed precision. This is not a byte-identical reconstruction.
+- [ ] Complete separate C16/C17 baseline notebook executions remain unrecovered; JSON histories and configuration are available.
+- [x] Historical train_clam_mb.py recovered unchanged from commit 9da9662 (removed in 0245cd4). Defaults match the saved pilot configuration. See PROVENANCE.md for the command and overwrite precautions.
+- [ ] CLAM-MB historical numerical result has not been revalidated; syntax checking is not a training run.
 - [x] TransMIL is the selected implemented extension evaluated on all three datasets. Projection width, dropout, patch sampling, ordering, and aggregation change together; this is a complete-pipeline comparison, not a causal attention ablation.
+
+## Source attribution and audit evidence
+
+See [PROVENANCE.md](PROVENANCE.md) for course-starter evidence, historical recovery links, plotting inputs, remaining execution gaps, and specific author-confirmation questions. Existing course statements and MIT copyright are preserved. No third-party code origin is inferred merely from a paper implementation. The original starter archive and authorship/adaptation scope still require confirmation.
