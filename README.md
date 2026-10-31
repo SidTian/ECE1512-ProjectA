@@ -111,3 +111,5 @@ Current TransMIL CE runs append _ce to result filenames; tracked main-comparison
 ## Source attribution and audit evidence
 
 See [PROVENANCE.md](PROVENANCE.md) for course-starter evidence, historical recovery links, plotting inputs, remaining execution gaps, and specific author-confirmation questions. Existing course statements and MIT copyright are preserved. No third-party code origin is inferred merely from a paper implementation. The original starter archive and authorship/adaptation scope still require confirmation.
+
+The author has confirmed that the baseline notebook scaffold comes from the school-provided ECE1512 template. TODO completions are distinguished from that scaffold. A supplied local TODO-completed reference contains a different BRACS execution and is not substituted for the report baseline; see PROVENANCE.md for the comparison and remaining scope questions.
