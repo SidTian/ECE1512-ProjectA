@@ -1,0 +1,66 @@
+{
+  "starter_zip_sha256": "e48c5ec771a12415a3677b50cba1edbd976f5ee18790209ac1850650b4e12da8",
+  "comparison": "UTF-8 text with newline normalization; byte hashes retained separately",
+  "files": [
+    {
+      "path": "dataloader.py",
+      "starter_sha256": "b1ac1fe2ec32a83f804f26e7de1e79ec61217371024e3b21a7be8c707147e33e",
+      "repository_sha256": "68e4dde1a679bca0bb13437bac4d3509c100f0ed3464bfdc480e5dd55aa47d50",
+      "text_equal": true
+    },
+    {
+      "path": "utils.py",
+      "starter_sha256": "31e195da1e6be7f653fa2c7fb69fc23bab9e11fd7595345ebe6ed84af83c4ccd",
+      "repository_sha256": "406cd4963f75e55c790b946419f148a206314ed99863b1882f0e4d64e2023e12",
+      "text_equal": true
+    },
+    {
+      "path": "wsi_visualization.py",
+      "starter_sha256": "f7cbd68c16e66bfeaaab8e1f21473f1c47ce797ed7bad9807450f658bc344086",
+      "repository_sha256": "7b75eed77432feb891130ded6ce7a90b0fe43fdc66740fb15781d559021f8a7b",
+      "text_equal": true
+    },
+    {
+      "path": "requirements.txt",
+      "starter_sha256": "824f5ae69b8889b1fe9519ab37849a5ebe66f5dcfae9d07870e2bfccb827b210",
+      "repository_sha256": "a71686e3941dd5874fcea1ecc30ed4b7641159f1dc17fe5159f2d01a421bf5b3",
+      "text_equal": true
+    },
+    {
+      "path": "config/bracs_medical_ssl_config.yml",
+      "starter_sha256": "3664ae149219b5466347fb58141c033ebed009d79f14badbd6bf7935eed528ad",
+      "repository_sha256": "d38cbc831f24455c62715c5cf94fa6c9be454dfd2cf15ee3986eb05f306d8dc5",
+      "text_equal": true
+    },
+    {
+      "path": "config/camelyon16_medical_ssl_config.yml",
+      "starter_sha256": "7a553f0bdc541d5b49ffe5eb5cf32556f29ecea6195ee7d468698d57a3451a3c",
+      "repository_sha256": "3596c3f8a326cc26aa4e00d3b73e64b34d17d03a9ac5503edd4dcd5c2a498270",
+      "text_equal": true
+    },
+    {
+      "path": "config/camelyon17_medical_ssl_config.yml",
+      "starter_sha256": "2b2ca4a125e5cb57c7ca5564ff638b12c0106e5c670889badb1b023181d9ee01",
+      "repository_sha256": "3d3e226e952f991fd5d1c22c543398b38bfea658b3b330dd6c6f905bcb51435a",
+      "text_equal": true
+    },
+    {
+      "path": "dataset_csv/bracs.csv",
+      "starter_sha256": "98cc857993b346cc53996071d32e43432e1ad10ff2a83d9786bdd44691a6e157",
+      "repository_sha256": "822ff9f02756923105de0d609ddfaee248136df0938909bc6a518479046d1829",
+      "text_equal": true
+    },
+    {
+      "path": "dataset_csv/camelyon17.csv",
+      "starter_sha256": "e8c9bb50d79662aa6f8dedd4a3253f1bcf0086c470bdaa1cb1062604891473d3",
+      "repository_sha256": "1d8e72369039337e539bdab9738d7efa0c557b59ba10d024f98a3d8f46ac1d89",
+      "text_equal": true
+    },
+    {
+      "path": "dataset_csv/README.md",
+      "starter_sha256": "b0480cfd4ecfcc1986aaf1982e589759a74317a3a5d132ce89b2c8433022972e",
+      "repository_sha256": "d2004c98204f8b55c93fca17418aa193e49091ec30c4697b0f04c0710cfb8fa5",
+      "text_equal": true
+    }
+  ]
+}
