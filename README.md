@@ -41,9 +41,36 @@ Replace `BRACS` with `C16` or `C17` to run the other datasets.
 
 - `train_patch_subsample.py` keeps the ABMIL model and randomly keeps at most 2048 patches from each training slide.
 - `train_gaussian_noise.py` keeps the ABMIL model and adds Gaussian noise with standard deviation 0.2 to training patch features. Feature values have a standard deviation of about 2.2, so this is a mild perturbation.
-- `train_transmil.py` trains TransMIL. Slides longer than 4096 patches are subsampled, then sorted by coordinates and arranged on a square grid. The model uses Nyström attention and pyramid position encoding. The reported run uses cross-entropy.
+- `train_transmil.py` trains TransMIL. Slides longer than 4096 patches are subsampled, then sorted by coordinates and arranged on a square grid. The model uses Nystr枚m attention and pyramid position encoding. The reported run uses cross-entropy.
 
 Training scripts write metric JSON files to results/; the notebook plots saved results. Checkpoint files are gitignored.
+
+## BRACS dropout ablation
+
+This independent local, single-seed validation ablation varies only the attention-output dropout in `layer1.attn.to_out.1` and `layer2.attn.to_out.1`. It reuses the existing TransMIL model, dataloader and metrics. The model does not read YAML `droprate`; the entry explicitly sets and checks both modules.
+
+After installing the dependencies above and downloading the BRACS features, run from the repository root with a CUDA-enabled PyTorch installation:
+
+```bash
+python train_bracs_dropout_ablation.py
+```
+
+Use `--features /path/to/patch_feats_pretrain_medical_ssl.h5` for a different feature location. Optional `--output /path/to/new_directory` must name a directory that does not exist. `--check-only` checks CUDA, feature dimensions, the exact archived slide IDs and equal initial weights without training or evaluating test data. The default output is a new timestamped directory under `runs/` (gitignored); archived results are never overwritten.
+
+The command trains `p=0, 0.1, 0.25, 0.5` from scratch in separate processes: 30 epochs each, seed 42, batch size 1, seven classes, AdamW (learning rate 1e-4, weight decay 1e-5), cross-entropy, and no warmup. It uses the supplied CSV split (389/62/86) and a 4096-patch cap with random training sampling and deterministic evaluation sampling. All configurations start from identical weights, checked by hashes. Each checkpoint maximizes validation macro-AUROC + macro-F1 (earlier epoch on ties); the same rule selects the dropout (lower probability on ties). Only that selected configuration is evaluated on test. A fresh run may select a different probability; it is not forced to select 0.1. The full command performs 120 training epochs in total; `--check-only` is the inexpensive setup check.
+
+Historical evidence is grouped in [`results/bracs_dropout_ablation/`](results/bracs_dropout_ablation/):
+
+- `summary.json`: all four selected validation results and the selected 0.1 test result.
+- `history.csv`: all 120 original epoch records, tagged by dropout probability.
+- `splits.csv`: the exact original slide IDs and assignments, checked by the entry.
+- `environment.json`: recorded GPU/PyTorch/CUDA, effective settings, initial-weight hash and source-record hashes. A complete historical dependency lockfile was not saved.
+
+The historical experiment first trained 0.1/0.25/0.5, then added 0.0 while reusing the completed 0.1 control. This portable adaptation runs all four afresh and does not depend on old checkpoints. Historical best epochs were 19/17/13/10 for 0/0.1/0.25/0.5, respectively. Only 0.1 was tested (macro-AUROC 0.7703, macro-F1 0.3326, accuracy 40.70%, cross-entropy 2.6770); the other configurations have validation results only. The default model's test result had already been viewed, so this is not a previously unseen test set.
+
+The archived local run used an NVIDIA GeForce RTX 4070 Laptop GPU, PyTorch 2.11.0+cu128 and CUDA runtime 12.8. Different GPUs/software can produce different results despite the same seed; the cause of differences has not been experimentally isolated. This ablation is separate from the main TransMIL comparison (BRACS epoch 20), and preference for 0.1 is limited to this local single-seed validation study. The entry was adapted from the actual local runner with Codex assistance: absolute paths and the old-control dependency were removed, existing training/evaluation routines retained, and portable preflight/output handling added. Model-source attribution remains as described in PROVENANCE.md.
+
+Packaging validation: all 120 archived epoch rows and selected checkpoints were checked against the local records; the portable entry passed local feature/split/initialization preflight and a tiny synthetic forward/backward dropout check. The full four-run training command was not rerun during packaging, so this is not a new numerical replication claim.
 
 ## Report and code reproducibility checklist
 
@@ -73,7 +100,7 @@ python train_transmil.py --dataset BRACS --max-patches 4096
 python train_transmil.py --dataset BRACS --max-patches 4096 --focal --focal-gamma 2
 ~~~
 
-- [x] Checkpoints maximize validation macro-AUC + macro-F1, retaining the earlier epoch on ties. Each run evaluates test data after loading that checkpoint.
+- [x] Checkpoints maximize validation macro-AUC + macro-F1, retaining the earlier epoch on ties. Main comparison runs evaluate test data after loading that checkpoint; the dropout entry evaluates only the configuration selected across all four validation runs.
 - [x] utils.py defines macro one-versus-rest AUROC, macro-F1, and accuracy (%). Cross-entropy is averaged over slides. Focal-loss values are not directly comparable with cross-entropy.
 - [x] TransMIL randomly samples long training bags and deterministically samples validation/test bags, capped at 4096. ABMIL noise/subsampling variants perturb only training inputs.
 Optional future work: multiple seeds, confidence intervals, matched architectural ablations, calibration and class-level error analyses are not included; these are not treated as required missing experiments.
@@ -93,6 +120,7 @@ JSON filenames below are under results/.
 | BRACS Gaussian noise | bracs_noise0.2.json | 6 | 39.5349 |
 | BRACS training patch subsampling | bracs_patch2048.json | 4 | 39.5349 |
 | BRACS TransMIL focal loss | bracs_transmil4096_focal2.json | 10 | 38.3721 |
+| BRACS local dropout ablation (selected p=0.1) | bracs_dropout_ablation/summary.json | 17 | 40.6977 |
 | BRACS CLAM-MB pilot | bracs_clam_mb.json (historical entry restored; not rerun) | 10 | 39.5349 |
 
 BRACS baseline: notebook output, AUC 0.7916, F1 0.3439, loss 1.6326. Do not substitute bracs_noise0_drop0.25.json: that separate dropout run has accuracy 38.3721%.

@@ -1,0 +1,68 @@
+{
+  "original_studies": [
+    "BRACS_TransMIL_dropout_20261030_204142",
+    "BRACS_TransMIL_dropout0_20261030_212332"
+  ],
+  "torch": "2.11.0+cu128",
+  "cuda_runtime": "12.8",
+  "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+  "historical_config": {
+    "dataset": "BRACS",
+    "D_feat": 384,
+    "D_inner": 256,
+    "D_attn": 128,
+    "n_res": 0,
+    "n_class": 7,
+    "B": 1,
+    "n_worker": 0,
+    "pin_memory": true,
+    "n_shot": 0,
+    "seed": 42,
+    "lr": 0.0001,
+    "wd": 1e-05,
+    "train_epoch": 30,
+    "warmup_epoch": 3,
+    "droprate": 0.0
+  },
+  "effective_settings": {
+    "epochs": 30,
+    "seed": 42,
+    "batch_size": 1,
+    "max_patches": 4096,
+    "warmup_enabled": false,
+    "loss": "cross_entropy",
+    "optimizer": "AdamW",
+    "dropout_control": "explicitly set the two attention-output modules; YAML droprate is unused"
+  },
+  "initial_weights_sha256": "4d32c75bf969bd2986151e3804915368b56aa8f1210444af0145666812c15dcf",
+  "dropout_modules": [
+    "layer1.attn.to_out.1",
+    "layer2.attn.to_out.1"
+  ],
+  "source_commit": "0245cd4cc1884120ed2d6be59e0a1113b99ffabf",
+  "original_source_sha256": {
+    "dataloader.py": "68e4dde1a679bca0bb13437bac4d3509c100f0ed3464bfdc480e5dd55aa47d50",
+    "train_transmil.py": "0c9c3bab39d8f2035f8c90fa16170ff7e4a77813e5057515786c17bb1820f744",
+    "utils.py": "406cd4963f75e55c790b946419f148a206314ed99863b1882f0e4d64e2023e12"
+  },
+  "data_bytes": 4235044448,
+  "dependency_limit": "Complete historical Python/package/driver versions were not recorded; current installed versions must not be presented as the historical environment.",
+  "source_record_sha256": {
+    "BRACS_TransMIL_dropout0_20261030_212332/dropout_0/validation_result.json": "c24c356dfb48b15dac63a80dc6618a53b2c2597003a93a53283624adfced5799",
+    "BRACS_TransMIL_dropout0_20261030_212332/dropout_0/history.csv": "108b17d12c9d1be0708fe3dbc9c873d2fd22f5c6bd2d0d323231ef98f843f436",
+    "BRACS_TransMIL_dropout0_20261030_212332/dropout_0/initialization.json": "8f0496634fdacf31cef3957c50abf371c3b7e109540a1c82f241c75808452716",
+    "BRACS_TransMIL_dropout0_20261030_212332/dropout_0/splits.csv": "00dd140f5aa11fb14bb28e86c19d7d69c0e71c536ea9546fbc764ae7c7df94a3",
+    "BRACS_TransMIL_dropout_20261030_204142/dropout_0.1/validation_result.json": "3f71e1777be4dacc9b4ced978699ecb875c201539e4e12ee60397455fd266ae2",
+    "BRACS_TransMIL_dropout_20261030_204142/dropout_0.1/history.csv": "dc314e7e1569762e348a4e50741195a25c3e3abfabd87741c0c53a8038829bd9",
+    "BRACS_TransMIL_dropout_20261030_204142/dropout_0.1/initialization.json": "3143a5f82e41efacab81063229f8bbac6b863b340000e35fd8d6adac9c9029eb",
+    "BRACS_TransMIL_dropout_20261030_204142/dropout_0.1/splits.csv": "00dd140f5aa11fb14bb28e86c19d7d69c0e71c536ea9546fbc764ae7c7df94a3",
+    "BRACS_TransMIL_dropout_20261030_204142/dropout_0.25/validation_result.json": "76a8ba749db0fd243338062d0f6a3d00b0cd2c8229d9089cb103e032e933b95e",
+    "BRACS_TransMIL_dropout_20261030_204142/dropout_0.25/history.csv": "4edbf832ab8489d15164824123c90aea9a9e817098dd00cc250ae2b1e8bea3fa",
+    "BRACS_TransMIL_dropout_20261030_204142/dropout_0.25/initialization.json": "f5c1cb3c1b5de8e7104832f7a19177beecefc8a663305d08a5d3cda7b2d9ff13",
+    "BRACS_TransMIL_dropout_20261030_204142/dropout_0.25/splits.csv": "00dd140f5aa11fb14bb28e86c19d7d69c0e71c536ea9546fbc764ae7c7df94a3",
+    "BRACS_TransMIL_dropout_20261030_204142/dropout_0.5/validation_result.json": "19668a7be471e35ca882ec40f15d4432c4c976a4ad291e6cf8cd7d90e773f1b8",
+    "BRACS_TransMIL_dropout_20261030_204142/dropout_0.5/history.csv": "bd62b4c9a6265c374b2a3448059b47738e119d840e180b52208e0999a739dbdb",
+    "BRACS_TransMIL_dropout_20261030_204142/dropout_0.5/initialization.json": "c01cf2024be26190c8c3d26e7fb8d45261d0c9f5c9cad28dd6dc8127e6e10319",
+    "BRACS_TransMIL_dropout_20261030_204142/dropout_0.5/splits.csv": "00dd140f5aa11fb14bb28e86c19d7d69c0e71c536ea9546fbc764ae7c7df94a3"
+  }
+}

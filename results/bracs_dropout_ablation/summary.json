@@ -1,0 +1,243 @@
+{
+  "status": "archived historical observations; not rerun during packaging",
+  "original_studies": [
+    "BRACS_TransMIL_dropout_20261030_204142",
+    "BRACS_TransMIL_dropout0_20261030_212332"
+  ],
+  "execution_note": "0.1, 0.25 and 0.5 were trained first; 0.0 was added later, reusing the completed 0.1 control. The portable entry trains all four from scratch.",
+  "selection": "maximize validation macro-AUROC + macro-F1; earliest epoch on ties; lower dropout on configuration ties",
+  "previous_default_test_already_seen": true,
+  "validation_results": [
+    {
+      "dropout": 0.0,
+      "best_epoch": 19,
+      "best_score": 1.2007816135883331,
+      "best_validation": {
+        "epoch": 19,
+        "train_loss": 0.21261541786509117,
+        "train_acc": 91.51670951156812,
+        "val_loss": 3.249260716737603,
+        "val_acc": 48.38709533214569,
+        "val_auc": 0.7471950650215149,
+        "val_f1": 0.45358654856681824,
+        "score": 1.2007816135883331,
+        "seconds": 24.672327041625977
+      },
+      "epochs": 30,
+      "initial_weights_sha256": "4d32c75bf969bd2986151e3804915368b56aa8f1210444af0145666812c15dcf",
+      "test_evaluated": false,
+      "actual_dropout_layers": {
+        "layer1.attn.to_out.1": 0.0,
+        "layer2.attn.to_out.1": 0.0
+      }
+    },
+    {
+      "dropout": 0.1,
+      "best_epoch": 17,
+      "best_score": 1.2494505047798157,
+      "best_validation": {
+        "epoch": 17,
+        "train_loss": 0.16158360653211845,
+        "train_acc": 93.83033419023137,
+        "val_loss": 2.7283160219288867,
+        "val_acc": 50.0,
+        "val_auc": 0.7769325971603394,
+        "val_f1": 0.4725179076194763,
+        "score": 1.2494505047798157,
+        "seconds": 24.145241498947144
+      },
+      "epochs": 30,
+      "initial_weights_sha256": "4d32c75bf969bd2986151e3804915368b56aa8f1210444af0145666812c15dcf",
+      "test_evaluated": false,
+      "actual_dropout_layers": {
+        "layer1.attn.to_out.1": 0.1,
+        "layer2.attn.to_out.1": 0.1
+      }
+    },
+    {
+      "dropout": 0.25,
+      "best_epoch": 13,
+      "best_score": 1.2367784976959229,
+      "best_validation": {
+        "epoch": 13,
+        "train_loss": 0.17352468978653568,
+        "train_acc": 94.08740359897172,
+        "val_loss": 3.0524504039271814,
+        "val_acc": 51.61290168762207,
+        "val_auc": 0.7626476883888245,
+        "val_f1": 0.4741308093070984,
+        "score": 1.2367784976959229,
+        "seconds": 22.81522560119629
+      },
+      "epochs": 30,
+      "initial_weights_sha256": "4d32c75bf969bd2986151e3804915368b56aa8f1210444af0145666812c15dcf",
+      "test_evaluated": false,
+      "actual_dropout_layers": {
+        "layer1.attn.to_out.1": 0.25,
+        "layer2.attn.to_out.1": 0.25
+      }
+    },
+    {
+      "dropout": 0.5,
+      "best_epoch": 10,
+      "best_score": 1.2103245854377747,
+      "best_validation": {
+        "epoch": 10,
+        "train_loss": 0.35948367640202517,
+        "train_acc": 86.63239074550128,
+        "val_loss": 2.7697259460248693,
+        "val_acc": 48.38709533214569,
+        "val_auc": 0.7753393054008484,
+        "val_f1": 0.43498528003692627,
+        "score": 1.2103245854377747,
+        "seconds": 22.773382663726807
+      },
+      "epochs": 30,
+      "initial_weights_sha256": "4d32c75bf969bd2986151e3804915368b56aa8f1210444af0145666812c15dcf",
+      "test_evaluated": false,
+      "actual_dropout_layers": {
+        "layer1.attn.to_out.1": 0.5,
+        "layer2.attn.to_out.1": 0.5
+      }
+    }
+  ],
+  "selected_test": {
+    "dropout": 0.1,
+    "epoch": 17,
+    "test": {
+      "auc": 0.7703244090080261,
+      "acc": 40.697672963142395,
+      "f1": 0.33258095383644104,
+      "loss": 2.676964987577332
+    },
+    "weights_reload": "PASS",
+    "predictions": 86,
+    "confusion_matrix": [
+      [
+        0,
+        3,
+        2,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        6,
+        5,
+        1,
+        2,
+        0,
+        0
+      ],
+      [
+        0,
+        3,
+        3,
+        0,
+        1,
+        2,
+        0
+      ],
+      [
+        1,
+        0,
+        4,
+        2,
+        2,
+        1,
+        1
+      ],
+      [
+        0,
+        1,
+        3,
+        1,
+        4,
+        3,
+        0
+      ],
+      [
+        1,
+        0,
+        5,
+        1,
+        1,
+        3,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        17
+      ]
+    ],
+    "classification_report": {
+      "0": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 6.0
+      },
+      "1": {
+        "precision": 0.46153846153846156,
+        "recall": 0.375,
+        "f1-score": 0.41379310344827586,
+        "support": 16.0
+      },
+      "2": {
+        "precision": 0.13636363636363635,
+        "recall": 0.3333333333333333,
+        "f1-score": 0.1935483870967742,
+        "support": 9.0
+      },
+      "3": {
+        "precision": 0.3333333333333333,
+        "recall": 0.18181818181818182,
+        "f1-score": 0.23529411764705882,
+        "support": 11.0
+      },
+      "4": {
+        "precision": 0.4,
+        "recall": 0.3333333333333333,
+        "f1-score": 0.36363636363636365,
+        "support": 12.0
+      },
+      "5": {
+        "precision": 0.25,
+        "recall": 0.25,
+        "f1-score": 0.25,
+        "support": 12.0
+      },
+      "6": {
+        "precision": 0.8947368421052632,
+        "recall": 0.85,
+        "f1-score": 0.8717948717948718,
+        "support": 20.0
+      },
+      "accuracy": 0.4069767441860465,
+      "macro avg": {
+        "precision": 0.3537103247629564,
+        "recall": 0.3319264069264069,
+        "f1-score": 0.33258097766047773,
+        "support": 86.0
+      },
+      "weighted avg": {
+        "precision": 0.44154990256581444,
+        "recall": 0.4069767441860465,
+        "f1-score": 0.4157022585197073,
+        "support": 86.0
+      }
+    }
+  },
+  "untested_dropouts": [
+    0.0,
+    0.25,
+    0.5
+  ]
+}

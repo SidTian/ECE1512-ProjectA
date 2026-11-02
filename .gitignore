@@ -13,3 +13,6 @@ slide/*.svs
 *.pt
 *.pth
 *.log
+
+# Fresh dropout ablation runs (weights, logs and source snapshots)
+runs/
