@@ -1,5 +1,7 @@
 # ECE1512 Project A
 
+Quick links: [Report-to-result map](#report-to-result-map)
+
 Slide-level classification of whole-slide histopathology features with Attention-Based Multiple Instance Learning (ABMIL). The research extension is TransMIL, compared with two training-only augmentations: random patch subsampling and Gaussian feature noise.
 
 Features and trained weights are not in this repository. Download the HDF5 files before training.
@@ -41,7 +43,7 @@ Replace `BRACS` with `C16` or `C17` to run the other datasets.
 
 - `train_patch_subsample.py` keeps the ABMIL model and randomly keeps at most 2048 patches from each training slide.
 - `train_gaussian_noise.py` keeps the ABMIL model and adds Gaussian noise with standard deviation 0.2 to training patch features. Feature values have a standard deviation of about 2.2, so this is a mild perturbation.
-- `train_transmil.py` trains TransMIL. Slides longer than 4096 patches are subsampled, then sorted by coordinates and arranged on a square grid. The model uses Nystr枚m attention and pyramid position encoding. The reported run uses cross-entropy.
+- `train_transmil.py` trains TransMIL. Slides longer than 4096 patches are subsampled, then sorted by coordinates and arranged on a square grid. The model uses Nyström attention and pyramid position encoding. The reported run uses cross-entropy.
 
 Training scripts write metric JSON files to results/; the notebook plots saved results. Checkpoint files are gitignored.
 
@@ -142,4 +144,4 @@ The original school starter ZIP has been compared directly. `dataloader.py`, `ut
 
 See [PROVENANCE.md](PROVENANCE.md) and [the file comparison manifest](docs/starter_comparison.json) for exact scope and evidence. The starter contains no execution outputs and does not recover missing C16/C17 runs. A separate local TODO-completed notebook has different BRACS results and is not substituted for the report baseline.
 
-TransMIL/CLAM external implementation origins are pending teammate confirmation. Files absent from the starter are not automatically claimed as original. Existing declarations and the repository MIT license are preserved; the supplied starter contains no explicit license grant, and course portions are not claimed under the team's copyright.
+Existing declarations and the repository MIT license are preserved; the supplied starter contains no explicit license grant, and course portions are not claimed under the team's copyright.
