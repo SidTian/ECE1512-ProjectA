@@ -70,9 +70,9 @@ Historical evidence is grouped in [`results/bracs_dropout_ablation/`](results/br
 
 The historical experiment first trained 0.1/0.25/0.5, then added 0.0 while reusing the completed 0.1 control. This portable adaptation runs all four afresh and does not depend on old checkpoints. Historical best epochs were 19/17/13/10 for 0/0.1/0.25/0.5, respectively. Only 0.1 was tested (macro-AUROC 0.7703, macro-F1 0.3326, accuracy 40.70%, cross-entropy 2.6770); the other configurations have validation results only. The default model's test result had already been viewed, so this is not a previously unseen test set.
 
-The archived local run used an NVIDIA GeForce RTX 4070 Laptop GPU, PyTorch 2.11.0+cu128 and CUDA runtime 12.8. Different GPUs/software can produce different results despite the same seed; the cause of differences has not been experimentally isolated. This ablation is separate from the main TransMIL comparison (BRACS epoch 20), and preference for 0.1 is limited to this local single-seed validation study. The entry was adapted from the actual local runner with Codex assistance: absolute paths and the old-control dependency were removed, existing training/evaluation routines retained, and portable preflight/output handling added. Model-source attribution remains as described in PROVENANCE.md.
+The archived local run used an NVIDIA GeForce RTX 4070 Laptop GPU, PyTorch 2.11.0+cu128 and CUDA runtime 12.8. Different GPUs/software can produce different results despite the same seed; the cause of differences has not been experimentally isolated. This ablation is separate from the main TransMIL comparison (BRACS epoch 20), and preference for 0.1 is limited to this local single-seed validation study. The entry reuses the existing training and evaluation routines, accepts portable paths, checks initialization and split IDs, and writes each run to a separate directory.
 
-Packaging validation: all 120 archived epoch rows and selected checkpoints were checked against the local records; the portable entry passed local feature/split/initialization preflight and a tiny synthetic forward/backward dropout check. The full four-run training command was not rerun during packaging, so this is not a new numerical replication claim.
+Validation status: all 120 archived epoch rows and selected checkpoints were checked against the local records; the portable entry passed local feature/split/initialization preflight and a tiny synthetic forward/backward dropout check. The full four-run training command was not rerun during packaging, so this is not a new numerical replication claim.
 
 ## Report and code reproducibility checklist
 
@@ -80,7 +80,7 @@ The report and this repository are separate artifacts. The report describes meth
 
 ### Data and environment
 
-- [ ] User setup: download features from the source above; features and weights are not tracked. This audit did not download or reload them.
+- [ ] User setup: download features from the source above; features and weights are not tracked.
 - [x] C16: test IDs contain 'test'; reserve 10% of non-test slides for validation with seed 42 and stratification when feasible. Reported counts: 242 train / 27 validation / 129 test.
 - [x] C17: centers 3-4 are test; centers 0-2 are split 90/10 for training/validation with seed 42. Counts: 269 / 30 / 200. This experimental split of available challenge training slides is not the official challenge test partition. Training/validation are split by slide, not grouped by patient.
 - [x] BRACS: preserve CSV assignments for available features; counts: 389 / 62 / 86.
@@ -138,7 +138,7 @@ Current TransMIL CE runs append _ce to result filenames; tracked main-comparison
 - [ ] CLAM-MB historical numerical result has not been revalidated; syntax checking is not a training run.
 - [x] TransMIL is the selected implemented extension evaluated on all three datasets. Projection width, dropout, patch sampling, ordering, and aggregation change together; this is a complete-pipeline comparison, not a causal attention ablation.
 
-## Source attribution and audit evidence
+## Source attribution
 
 The original school starter ZIP has been compared directly. `dataloader.py`, `utils.py`, `wsi_visualization.py`, `requirements.txt`, all three configurations, both dataset CSVs and their README match its text. These are course-provided files. The notebook retains the course scaffold with completed TODOs, written responses, saved baseline outputs and a later TransMIL section; the class/loop framework and validation checkpoint rule were supplied by the course.
 
